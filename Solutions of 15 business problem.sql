@@ -1,13 +1,13 @@
 ## Most Popular Show Type in the Dataset.
 SELECT show_type,
-	     COUNT(*) AS count
+       COUNT(*) AS count
 FROM netflix	
 GROUP BY show_type
 ORDER BY count DESC;
 
 ## Top Countries by Number of Shows.
 SELECT country, 
-	     COUNT(*) AS show_count
+     COUNT(*) AS show_count
 FROM netflix
 WHERE country IS NOT NULL
 GROUP BY country
@@ -16,7 +16,7 @@ LIMIT 10;
 
 ## Trend of Show Release Over the Years.
 SELECT release_year,
-	     COUNT(*) AS content_count
+   COUNT(*) AS content_count
 FROM netflix
 GROUP BY release_year
 ORDER BY release_year;
