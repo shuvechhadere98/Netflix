@@ -32,7 +32,8 @@ CREATE TABLE netflix
 ## Business Problems and Solutions.
 
 ### Most Popular Show Type in the Dataset.
-SELECT show_type, COUNT(*) AS count
+SELECT show_type,
+       COUNT(*) AS count
 FROM netflix	
 GROUP BY show_type
 ORDER BY count DESC;
@@ -69,7 +70,7 @@ GROUP BY show_type, title)
 SELECT show_type, title
 FROM CTE
 WHERE DENSE_RANK = 1;
-## Top Directors with Most Content
+## Top Directors with Most Content.
 SELECT director, COUNT(*) AS count
 FROM netflix
 WHERE director IS NOT NULL
