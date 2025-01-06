@@ -7,7 +7,7 @@ ORDER BY count DESC;
 
 ## Top Countries by Number of Shows.
 SELECT country, 
-     COUNT(*) AS show_count
+       COUNT(*) AS show_count
 FROM netflix
 WHERE country IS NOT NULL
 GROUP BY country
@@ -16,7 +16,7 @@ LIMIT 10;
 
 ## Trend of Show Release Over the Years.
 SELECT release_year,
-   COUNT(*) AS content_count
+       COUNT(*) AS content_count
 FROM netflix
 GROUP BY release_year
 ORDER BY release_year;
@@ -24,35 +24,35 @@ ORDER BY release_year;
 ## Find the Most Common Rating for Movies and TV Shows.
 WITH CTE AS
 (SELECT show_type, 
-	      rating,
-	      COUNT(*),
+        rating,
+	COUNT(*),
         DENSE_RANK () OVER(PARTITION BY show_type ORDER BY COUNT(*) DESC)
 FROM netflix
 GROUP BY 1, 2)
 
 SELECT show_type, 
-	     rating AS most_frequent_rating
+       rating AS most_frequent_rating
 FROM CTE
 WHERE DENSE_RANK = 1
 	
 ## Identify the Longest Duration for Movie and TV Show.
 With CTE AS
 (SELECT show_type,
-	      title, 
-	      MAX(SPLIT_PART(duration, ' ', 1)::INT) AS duration,
+        title, 
+        MAX(SPLIT_PART(duration, ' ', 1)::INT) AS duration,
         DENSE_RANK () OVER (PARTITION BY show_type ORDER BY MAX(split_part(duration, ' ', 1)::INT) DESC)
 FROM netflix	
 WHERE duration IS NOT NULL
 GROUP BY show_type, title)
 
 SELECT show_type,
-	     title
+       title
 FROM CTE
 WHERE DENSE_RANK = 1;
 
 ## Top Directors with Most Content
 SELECT director,
-	     COUNT(*) AS count
+       COUNT(*) AS count
 FROM netflix
 WHERE director IS NOT NULL
 GROUP BY director
@@ -61,7 +61,7 @@ LIMIT 10;
 
 ## Find Each Year and the Average Numbers of Content Release in India on Netflix.
 SELECT country,
-	     release_year,	
+	release_year,	
        COUNT(show_id) AS total_release,
        ROUND(COUNT(show_id)::numeric /	
       (SELECT COUNT(show_id) FROM netflix WHERE country = 'India')::numeric * 100, 2) AS avg_release
@@ -83,8 +83,8 @@ WHERE casts like '%Robert Downey Jr.%';
 
 ## Find All the Movies Released After 2015 in the Action Genre.
 SELECT title, 
-	     release_year, 
-	     listed_in
+       release_year, 
+       listed_in
 FROM netflix
 WHERE show_type = 'Movie' 
       AND release_year > 2015
@@ -92,7 +92,7 @@ WHERE show_type = 'Movie'
 
 ## Find the Actors hho have Appeared in the Most Shows/Movies.
 SELECT UNNEST(STRING_TO_ARRAY(casts,',')) AS actors,
-	     COUNT(*) AS appearance_count
+       COUNT(*) AS appearance_count
 FROM netflix
 GROUP BY actors
 ORDER BY appearance_count DESC
